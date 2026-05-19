@@ -26,3 +26,49 @@ Les amateurs de musique, les étudiants, et toute personne cherchant un mini-jeu
 ## Risques techniques
 - Gestion des erreurs de saisie utilisateur pour ne pas générer de frustration.
 - Problème de lecture audio automatique (autoplay) sur certains navigateurs.
+
+## 🚀 Stack Technique
+
+*   **Frontend :** [Vue.js 3](https://vuejs.org/) (Composition API)
+*   **Build Tool :** [Vite](https://vitejs.dev/)
+*   **Gestion d'état :** Pinia (optionnel, pour le score et l'état de la partie)
+*   **Styles :** CSS pur / Tailwind CSS (à adapter selon votre choix)
+
+---
+
+## 💻 Installation et Lancement du Projet
+
+### Prérequis
+
+Assurez-vous d'avoir [Node.js](https://nodejs.org/) installé sur votre machine.
+
+### 1. Cloner le projet
+
+```bash
+git clone <lien-de-votre-repo-github>
+cd reverse-blind-test
+```
+
+### 2. Installer les dépendances
+
+```bash
+npm install
+```
+
+### 3. Lancer le serveur de développement
+
+```bash
+npm run dev
+```
+
+---
+
+## 👥 L'Équipe (Mode Scrum)
+
+**Product Owner** : Renaud
+**Scrum Master** : Théo
+**Équipe de Développement** :
+Foidjou
+Martin
+matthieu
+ 
