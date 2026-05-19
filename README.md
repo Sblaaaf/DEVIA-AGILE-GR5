@@ -66,9 +66,11 @@ npm run dev
 ## 👥 L'Équipe (Mode Scrum)
 
 **Product Owner** : Renaud
+
 **Scrum Master** : Théo
+
 **Équipe de Développement** :
-Foidjou
-Martin
-matthieu
+* Foidjou
+* Martin
+* Matthieu
  
