@@ -45,7 +45,7 @@ Assurez-vous d'avoir [Node.js](https://nodejs.org/) installé sur votre machine.
 ### 1. Cloner le projet
 
 ```bash
-git clone <lien-de-votre-repo-github>
+git clone https://github.com/Sblaaaf/DEVIA-AGILE-GR5.git
 cd reverse-blind-test
 ```
 
