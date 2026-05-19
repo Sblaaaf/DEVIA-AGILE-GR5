@@ -46,7 +46,7 @@ Assurez-vous d'avoir [Node.js](https://nodejs.org/) installé sur votre machine.
 
 ```bash
 git clone https://github.com/Sblaaaf/DEVIA-AGILE-GR5.git
-cd reverse-blind-test
+cd DEVIA-AGILE-GR5
 ```
 
 ### 2. Installer les dépendances
