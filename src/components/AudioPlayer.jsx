@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 
-export default function AudioPlayer({ src, playing }) {
+export default function AudioPlayer({ src, playing, volume = 0.5 }) {
   const audioRef = useRef(null)
   const [loading, setLoading] = useState(true)
 
@@ -16,6 +16,12 @@ export default function AudioPlayer({ src, playing }) {
     audio.addEventListener('canplay', onCanPlay)
     return () => audio.removeEventListener('canplay', onCanPlay)
   }, [src])
+
+  useEffect(() => {
+    const audio = audioRef.current
+    if (!audio) return
+    audio.volume = volume
+  }, [volume])
 
   useEffect(() => {
     const audio = audioRef.current

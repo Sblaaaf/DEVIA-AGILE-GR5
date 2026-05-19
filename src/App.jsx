@@ -1,8 +1,10 @@
+import { useState, useEffect } from 'react'
 import './index.css'
 import { useQuiz } from './hooks/useQuiz'
 import HomeScreen from './components/HomeScreen'
 import QuizCard from './components/QuizCard'
 import ResultsScreen from './components/ResultsScreen'
+import VolumeControl from './components/VolumeControl'
 
 function LoadingScreen({ genre }) {
   return (
@@ -35,8 +37,19 @@ export default function App() {
     playAgain,
   } = useQuiz()
 
+  const [volume, setVolume] = useState(() => {
+    const saved = localStorage.getItem('quiz-volume')
+    return saved !== null ? parseFloat(saved) : 0.5
+  })
+
+  useEffect(() => {
+    localStorage.setItem('quiz-volume', volume.toString())
+  }, [volume])
+
   return (
     <div className="bg-[#0f0f1a] min-h-screen">
+      <VolumeControl volume={volume} onVolumeChange={setVolume} />
+
       {screen === 'home' && <HomeScreen onStart={startGame} error={error} />}
 
       {screen === 'loading' && <LoadingScreen genre={genre} />}
@@ -50,6 +63,7 @@ export default function App() {
           score={score}
           onAnswer={answer}
           onTimeout={timeout}
+          volume={volume}
         />
       )}
 
