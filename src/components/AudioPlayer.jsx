@@ -3,29 +3,25 @@ import { useEffect, useRef, useState } from 'react'
 export default function AudioPlayer({ src, playing }) {
   const audioRef = useRef(null)
   const [loading, setLoading] = useState(true)
-  const [error, setError] = useState(false)
 
-  // Reset state when src changes
   useEffect(() => {
+    const audio = audioRef.current
+    if (!audio) return
     setLoading(true)
-    setError(false)
+
+    audio.src = src
+    audio.load()
+
+    const onCanPlay = () => setLoading(false)
+    audio.addEventListener('canplay', onCanPlay)
+    return () => audio.removeEventListener('canplay', onCanPlay)
   }, [src])
 
   useEffect(() => {
     const audio = audioRef.current
-    if (!audio || loading) return
-
-    if (playing) {
-      const playPromise = audio.play()
-      if (playPromise !== undefined) {
-        playPromise.catch((err) => {
-          console.error("Audio play failed:", err)
-          // Don't show error for autoplay blocks, just wait for next interaction
-          if (err.name !== 'NotAllowedError') {
-            setError(true)
-          }
-        })
-      }
+    if (!audio) return
+    if (playing && !loading) {
+      audio.play().catch(() => {})
     } else {
       audio.pause()
     }
@@ -33,19 +29,7 @@ export default function AudioPlayer({ src, playing }) {
 
   return (
     <>
-      <audio
-        ref={audioRef}
-        src={src}
-        preload="auto"
-        loop
-        onCanPlay={() => setLoading(false)}
-        onError={() => {
-          console.error("Audio loading error for src:", src)
-          setError(true)
-          setLoading(false)
-        }}
-      />
-      
+      <audio ref={audioRef} preload="auto" loop />
       {loading && (
         <div className="flex items-center gap-2 text-slate-400 text-sm">
           <svg className="w-4 h-4 animate-spin" viewBox="0 0 24 24" fill="none">
@@ -54,14 +38,7 @@ export default function AudioPlayer({ src, playing }) {
           Chargement…
         </div>
       )}
-
-      {error && !loading && (
-        <div className="flex items-center gap-2 text-red-400 text-sm">
-          <span>⚠️ Erreur audio</span>
-        </div>
-      )}
-
-      {!loading && !error && playing && (
+      {!loading && playing && (
         <div className="flex items-end gap-1 h-6">
           {[0, 1, 2, 3].map((i) => (
             <div
