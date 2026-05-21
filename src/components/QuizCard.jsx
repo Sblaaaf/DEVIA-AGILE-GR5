@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback, useRef } from 'react'
 import Timer from './Timer'
 import AudioPlayer from './AudioPlayer'
 
-export default function QuizCard({ round, roundIndex, totalRounds, score, onAnswer, onTimeout, volume }) {
+export default function QuizCard({ round, roundIndex, totalRounds, score, onAnswer, onTimeout, volume, onQuit }) {
   const { correct, choices } = round
   const [selected, setSelected] = useState(null)
   const [answered, setAnswered] = useState(false)
@@ -59,6 +59,12 @@ export default function QuizCard({ round, roundIndex, totalRounds, score, onAnsw
       <div className="relative z-10 flex flex-col items-center px-4 py-6 max-w-lg mx-auto w-full animate-fade-in">
         {/* Header */}
         <div className="flex items-center justify-between w-full mb-5">
+          <button 
+            onClick={onQuit}
+            className="text-slate-400 hover:text-white transition-colors flex items-center gap-1 text-sm font-medium"
+          >
+            ← <span className="hidden sm:inline">Quitter</span>
+          </button>
           <span className="text-slate-400 text-sm font-medium">
             Question <span className="text-white">{roundIndex + 1}</span>/{totalRounds}
           </span>

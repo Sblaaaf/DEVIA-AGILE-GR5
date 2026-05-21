@@ -8,13 +8,28 @@ const GENRE_IDS = {
   'Hip-Hop': 116,
   Électro:   113, // Dance
   French:     52, // Chanson française
+  Techno:    'search', // Special case for searching specific artists
 }
+
+const TECHNO_ARTISTS = ['Vieze Asbak', 'Lil Texas', 'Skone', 'Asbak', 'Dimitri K', 'Spitnoise']
 
 function isGoodTrack(track) {
   return !!track.preview
 }
 
 async function fetchTracks(genre, limit = 100) {
+  if (genre === 'Techno') {
+    // Search for tracks from specific artists requested by user
+    const artists = shuffle(TECHNO_ARTISTS).slice(0, 3)
+    const query = artists.map(a => `artist:"${a}"`).join(' OR ')
+    const endpoint = `https://api.deezer.com/search?q=${encodeURIComponent(query)}&limit=${limit}`
+    const url = `${PROXY}${encodeURIComponent(endpoint)}`
+    const res = await fetch(url)
+    if (!res.ok) throw new Error(`Deezer API error: ${res.status}`)
+    const data = await res.json()
+    return (data.data || []).filter(isGoodTrack)
+  }
+
   const genreId = GENRE_IDS[genre]
   if (!genreId) throw new Error(`Genre inconnu : ${genre}`)
 

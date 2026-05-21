@@ -23,7 +23,11 @@ const initialState = {
 function reducer(state, action) {
   switch (action.type) {
     case 'START_LOADING':
-      return { ...initialState, screen: 'loading', genre: action.genre }
+      return { 
+        ...initialState, 
+        screen: 'loading', 
+        genre: action.genre 
+      }
 
     case 'ROUNDS_READY':
       return { ...state, screen: 'playing', rounds: action.rounds }

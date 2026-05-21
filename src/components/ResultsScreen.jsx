@@ -67,7 +67,7 @@ export default function ResultsScreen({ score, answers, genre, totalRounds, onPl
           onClick={onPlayAgain}
           className="glass hover:bg-white/10 text-slate-300 font-medium py-3 rounded-2xl transition-all duration-200"
         >
-          Changer de genre
+          Retour au menu
         </button>
       </div>
     </div>

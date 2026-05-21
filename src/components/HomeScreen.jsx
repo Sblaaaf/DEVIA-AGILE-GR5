@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { getLeaderboard } from './ScoreBoard'
 
 const GENRES = [
@@ -6,6 +7,7 @@ const GENRES = [
   { name: 'Hip-Hop', emoji: '🎧', color: 'from-yellow-400 to-amber-500',   desc: 'Rap & R&B' },
   { name: 'Électro', emoji: '🎹', color: 'from-cyan-400 to-blue-600',      desc: 'Dance & Electronic' },
   { name: 'French',  emoji: '🥐', color: 'from-violet-500 to-fuchsia-600', desc: 'Chanson française' },
+  { name: 'Techno',  emoji: '💀', color: 'from-violet-800 to-indigo-900',  desc: 'Hardcore & Uptempo' },
 ]
 
 const RULES = [

@@ -64,6 +64,7 @@ export default function App() {
           onAnswer={answer}
           onTimeout={timeout}
           volume={volume}
+          onQuit={playAgain}
         />
       )}
 

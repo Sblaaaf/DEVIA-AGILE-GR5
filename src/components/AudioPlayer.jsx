@@ -4,30 +4,50 @@ export default function AudioPlayer({ src, playing, volume = 0.5 }) {
   const audioRef = useRef(null)
   const [loading, setLoading] = useState(true)
 
+  // Utiliser une key basée sur src pour forcer le remounting du composant audio
+  // Cela garantit que le navigateur réinitialise proprement le flux
   useEffect(() => {
     const audio = audioRef.current
     if (!audio) return
+    
     setLoading(true)
-
     audio.src = src
+    audio.volume = volume
     audio.load()
 
     const onCanPlay = () => setLoading(false)
+    const onError = () => {
+      console.error("Audio error for:", src)
+      setLoading(false)
+    }
+
     audio.addEventListener('canplay', onCanPlay)
-    return () => audio.removeEventListener('canplay', onCanPlay)
+    audio.addEventListener('error', onError)
+    
+    return () => {
+      audio.removeEventListener('canplay', onCanPlay)
+      audio.removeEventListener('error', onError)
+    }
   }, [src])
 
   useEffect(() => {
-    const audio = audioRef.current
-    if (!audio) return
-    audio.volume = volume
+    if (audioRef.current) {
+      audioRef.current.volume = volume
+    }
   }, [volume])
 
   useEffect(() => {
     const audio = audioRef.current
     if (!audio) return
+    
     if (playing && !loading) {
-      audio.play().catch(() => {})
+      const playPromise = audio.play()
+      if (playPromise !== undefined) {
+        playPromise.catch(() => {
+          // Gérer le blocage de l'autoplay
+          console.log("Autoplay blocked or play interrupted")
+        })
+      }
     } else {
       audio.pause()
     }
