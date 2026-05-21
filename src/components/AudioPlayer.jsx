@@ -6,15 +6,32 @@ export default function AudioPlayer({ src, playing }) {
 
   useEffect(() => {
     const audio = audioRef.current
-    if (!audio) return
+    if (!audio || !src) return
+
     setLoading(true)
+
+    // ⚠️ Attacher les listeners AVANT de set src/load()
+    // pour éviter la race condition où canplay se déclenche
+    // avant que le listener ne soit en place
+    const onCanPlay = () => setLoading(false)
+    const onError   = () => setLoading(false) // ne pas rester bloqué en cas d'erreur
+
+    audio.addEventListener('canplay', onCanPlay)
+    audio.addEventListener('error',   onError)
 
     audio.src = src
     audio.load()
 
-    const onCanPlay = () => setLoading(false)
-    audio.addEventListener('canplay', onCanPlay)
-    return () => audio.removeEventListener('canplay', onCanPlay)
+    // Fallback immédiat : si l'audio est déjà prêt (cache)
+    if (audio.readyState >= 3) {
+      setLoading(false)
+    }
+
+    return () => {
+      audio.removeEventListener('canplay', onCanPlay)
+      audio.removeEventListener('error',   onError)
+      audio.pause()
+    }
   }, [src])
 
   useEffect(() => {
@@ -30,14 +47,20 @@ export default function AudioPlayer({ src, playing }) {
   return (
     <>
       <audio ref={audioRef} preload="auto" loop />
+
       {loading && (
         <div className="flex items-center gap-2 text-slate-400 text-sm">
           <svg className="w-4 h-4 animate-spin" viewBox="0 0 24 24" fill="none">
-            <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="3" strokeDasharray="31.4" strokeDashoffset="10" />
+            <circle
+              cx="12" cy="12" r="10"
+              stroke="currentColor" strokeWidth="3"
+              strokeDasharray="31.4" strokeDashoffset="10"
+            />
           </svg>
           Chargement…
         </div>
       )}
+
       {!loading && playing && (
         <div className="flex items-end gap-1 h-6">
           {[0, 1, 2, 3].map((i) => (
@@ -52,6 +75,7 @@ export default function AudioPlayer({ src, playing }) {
           ))}
         </div>
       )}
+
       <style>{`
         @keyframes equalizer {
           from { transform: scaleY(0.4); }
