@@ -13,6 +13,7 @@ function speedBonus(elapsed) {
 const initialState = {
   screen: 'home', // home | loading | playing | results
   genre: null,
+  pseudo: '',
   isInverted: false,
   rounds: [],
   roundIndex: 0,
@@ -24,10 +25,11 @@ const initialState = {
 function reducer(state, action) {
   switch (action.type) {
     case 'START_LOADING':
-      return { 
-        ...initialState, 
-        screen: 'loading', 
+      return {
+        ...initialState,
+        screen: 'loading',
         genre: action.genre,
+        pseudo: action.pseudo,
         isInverted: action.isInverted
       }
 
@@ -69,8 +71,8 @@ function reducer(state, action) {
 export function useQuiz() {
   const [state, dispatch] = useReducer(reducer, initialState)
 
-  const startGame = useCallback(async (genre, isInverted) => {
-    dispatch({ type: 'START_LOADING', genre, isInverted })
+  const startGame = useCallback(async (genre, isInverted, pseudo) => {
+    dispatch({ type: 'START_LOADING', genre, isInverted, pseudo })
     try {
       const rounds = await buildQuizRounds(genre, 10)
       dispatch({ type: 'ROUNDS_READY', rounds })

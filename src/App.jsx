@@ -25,6 +25,7 @@ export default function App() {
   const {
     screen,
     genre,
+    pseudo,
     isInverted,
     score,
     roundIndex,
@@ -75,6 +76,7 @@ export default function App() {
           score={score}
           answers={answers}
           genre={genre}
+          pseudo={pseudo}
           totalRounds={totalRounds}
           onPlayAgain={playAgain}
         />

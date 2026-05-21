@@ -18,8 +18,19 @@ const RULES = [
 
 export default function HomeScreen({ onStart, error }) {
   const [isInverted, setIsInverted] = useState(false)
+  const [pseudo, setPseudo] = useState('')
+  const [shake, setShake] = useState(false)
   const board = getLeaderboard()
   const best = board[0]?.score ?? null
+
+  const handleGenreClick = (genreName) => {
+    if (!pseudo.trim()) {
+      setShake(true)
+      setTimeout(() => setShake(false), 500)
+      return
+    }
+    onStart(genreName, isInverted, pseudo.trim())
+  }
 
   return (
     <div className="relative flex flex-col items-center min-h-screen overflow-hidden bg-[#0f0f1a]">
@@ -57,6 +68,29 @@ export default function HomeScreen({ onStart, error }) {
           </div>
         )}
 
+        {/* Pseudo input */}
+        <div className={`w-full mb-6 animate-fade-in ${shake ? 'animate-shake' : ''}`}>
+          <p className="text-xs font-semibold uppercase tracking-widest text-slate-500 mb-2">
+            Ton pseudo
+          </p>
+          <div className="relative">
+            <span className="absolute left-4 top-1/2 -translate-y-1/2 text-lg">🎮</span>
+            <input
+              type="text"
+              placeholder="Entre ton pseudo..."
+              value={pseudo}
+              onChange={(e) => setPseudo(e.target.value)}
+              maxLength={20}
+              className="w-full pl-11 pr-4 py-3.5 rounded-2xl bg-white/7 border border-white/10 text-white placeholder-slate-500 text-sm font-medium outline-none focus:border-violet-500/60 focus:bg-white/10 transition-all duration-200"
+            />
+          </div>
+          {shake && (
+            <p className="text-rose-400 text-xs mt-1.5 pl-1 animate-fade-in">
+              Entre un pseudo pour jouer !
+            </p>
+          )}
+        </div>
+
         {/* Settings */}
         <div className="w-full mb-6 glass rounded-2xl p-4 flex items-center justify-between animate-fade-in">
           <div className="flex items-center gap-3">
@@ -89,7 +123,7 @@ export default function HomeScreen({ onStart, error }) {
           {GENRES.map((g, i) => (
             <button
               key={g.name}
-              onClick={() => onStart(g.name, isInverted)}
+              onClick={() => handleGenreClick(g.name)}
               style={{ animationDelay: `${i * 60}ms` }}
               className={`
                 group relative overflow-hidden rounded-2xl p-4

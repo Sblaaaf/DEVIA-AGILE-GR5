@@ -10,13 +10,13 @@ function grade(score, total) {
   return { label: 'Réessaie !', emoji: '💪' }
 }
 
-export default function ResultsScreen({ score, answers, genre, totalRounds, onPlayAgain }) {
+export default function ResultsScreen({ score, answers, genre, pseudo, totalRounds, onPlayAgain }) {
   const correct = answers.filter((a) => a.correct).length
   const { label, emoji } = grade(score, totalRounds)
 
   useEffect(() => {
-    saveScore(score, genre)
-  }, [score, genre])
+    saveScore(score, genre, pseudo)
+  }, [score, genre, pseudo])
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen px-4 py-12 animate-slide-up">
@@ -24,6 +24,9 @@ export default function ResultsScreen({ score, answers, genre, totalRounds, onPl
       <div className="text-center mb-8">
         <div className="text-6xl mb-3">{emoji}</div>
         <h2 className="text-3xl font-black text-white mb-1">{label}</h2>
+        {pseudo && (
+          <p className="text-violet-400 font-semibold text-lg mb-1">{pseudo}</p>
+        )}
         <p className="text-slate-400">
           {correct}/{totalRounds} bonnes réponses
         </p>
@@ -52,7 +55,7 @@ export default function ResultsScreen({ score, answers, genre, totalRounds, onPl
 
       {/* Leaderboard */}
       <div className="mb-8 w-full max-w-sm">
-        <ScoreBoard highlightScore={score} />
+        <ScoreBoard highlightScore={score} highlightPseudo={pseudo} />
       </div>
 
       {/* Actions */}
