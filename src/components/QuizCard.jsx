@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback, useRef } from 'react'
 import Timer from './Timer'
 import AudioPlayer from './AudioPlayer'
 
-export default function QuizCard({ round, roundIndex, totalRounds, score, onAnswer, onTimeout, volume, onQuit }) {
+export default function QuizCard({ round, roundIndex, totalRounds, score, onAnswer, onTimeout, volume, onQuit, isInverted }) {
   const { correct, choices } = round
   const [selected, setSelected] = useState(null)
   const [answered, setAnswered] = useState(false)
@@ -101,7 +101,7 @@ export default function QuizCard({ round, roundIndex, totalRounds, score, onAnsw
             )}
           </div>
           <div className="absolute -bottom-3 left-1/2 -translate-x-1/2 glass rounded-full px-3 py-1.5 flex items-center gap-2 text-sm whitespace-nowrap">
-            <AudioPlayer src={correct.preview} playing={!answered} volume={volume} />
+            <AudioPlayer src={correct.preview} playing={!answered} volume={volume} isInverted={isInverted} />
           </div>
         </div>
 

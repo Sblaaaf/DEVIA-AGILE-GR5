@@ -89,7 +89,7 @@ export default function HomeScreen({ onStart, error }) {
           {GENRES.map((g, i) => (
             <button
               key={g.name}
-              onClick={() => onStart(g.name)}
+              onClick={() => onStart(g.name, isInverted)}
               style={{ animationDelay: `${i * 60}ms` }}
               className={`
                 group relative overflow-hidden rounded-2xl p-4

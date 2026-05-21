@@ -25,6 +25,7 @@ export default function App() {
   const {
     screen,
     genre,
+    isInverted,
     score,
     roundIndex,
     totalRounds,
@@ -65,6 +66,7 @@ export default function App() {
           onTimeout={timeout}
           volume={volume}
           onQuit={playAgain}
+          isInverted={isInverted}
         />
       )}
 
