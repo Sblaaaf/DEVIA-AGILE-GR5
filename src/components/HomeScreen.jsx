@@ -17,6 +17,7 @@ const RULES = [
 ]
 
 export default function HomeScreen({ onStart, error }) {
+  const [isInverted, setIsInverted] = useState(false)
   const board = getLeaderboard()
   const best = board[0]?.score ?? null
 
@@ -55,6 +56,28 @@ export default function HomeScreen({ onStart, error }) {
             {error}
           </div>
         )}
+
+        {/* Settings */}
+        <div className="w-full mb-6 glass rounded-2xl p-4 flex items-center justify-between animate-fade-in">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-xl bg-violet-500/20 flex items-center justify-center text-lg">
+              🔄
+            </div>
+            <div>
+              <div className="text-white font-bold text-sm">Musique Inversée</div>
+              <div className="text-slate-500 text-[10px] uppercase tracking-wider font-semibold">Mode Défi</div>
+            </div>
+          </div>
+          <label className="relative inline-flex items-center cursor-pointer">
+            <input 
+              type="checkbox" 
+              className="sr-only peer"
+              checked={isInverted}
+              onChange={(e) => setIsInverted(e.target.checked)}
+            />
+            <div className="w-11 h-6 bg-slate-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-violet-600"></div>
+          </label>
+        </div>
 
         {/* Genre label */}
         <p className="w-full text-left text-xs font-semibold uppercase tracking-widest text-slate-500 mb-3">
