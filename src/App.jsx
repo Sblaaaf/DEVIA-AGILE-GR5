@@ -23,6 +23,7 @@ export default function App() {
   const {
     screen,
     genre,
+    pseudo,
     score,
     roundIndex,
     totalRounds,
@@ -58,6 +59,7 @@ export default function App() {
           score={score}
           answers={answers}
           genre={genre}
+          pseudo={pseudo}
           totalRounds={totalRounds}
           onPlayAgain={playAgain}
         />

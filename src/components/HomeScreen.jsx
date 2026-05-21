@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { getLeaderboard } from './ScoreBoard'
 
 const GENRES = [
@@ -15,8 +16,19 @@ const RULES = [
 ]
 
 export default function HomeScreen({ onStart, error }) {
+  const [pseudo, setPseudo] = useState('')
+  const [shake, setShake] = useState(false)
   const board = getLeaderboard()
   const best = board[0]?.score ?? null
+
+  const handleGenreClick = (genreName) => {
+    if (!pseudo.trim()) {
+      setShake(true)
+      setTimeout(() => setShake(false), 500)
+      return
+    }
+    onStart(genreName, pseudo.trim())
+  }
 
   return (
     <div className="relative flex flex-col items-center min-h-screen overflow-hidden bg-[#0f0f1a]">
@@ -29,7 +41,7 @@ export default function HomeScreen({ onStart, error }) {
 
       <div className="relative z-10 flex flex-col items-center w-full max-w-sm px-5 pt-14 pb-10">
         {/* Logo */}
-        <div className="flex flex-col items-center mb-8 animate-fade-in">
+        <div className="flex flex-col items-center mb-6 animate-fade-in">
           <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-violet-500 to-fuchsia-600 flex items-center justify-center text-4xl shadow-lg shadow-violet-500/30 mb-5">
             🎵
           </div>
@@ -44,6 +56,29 @@ export default function HomeScreen({ onStart, error }) {
               <span className="text-slate-300">Meilleur score :</span>
               <span className="text-violet-300 font-bold">{best} pts</span>
             </div>
+          )}
+        </div>
+
+        {/* Pseudo input */}
+        <div className={`w-full mb-6 animate-fade-in ${shake ? 'animate-shake' : ''}`}>
+          <p className="text-xs font-semibold uppercase tracking-widest text-slate-500 mb-2">
+            Ton pseudo
+          </p>
+          <div className="relative">
+            <span className="absolute left-4 top-1/2 -translate-y-1/2 text-lg">🎮</span>
+            <input
+              type="text"
+              placeholder="Entre ton pseudo..."
+              value={pseudo}
+              onChange={(e) => setPseudo(e.target.value)}
+              maxLength={20}
+              className="w-full pl-11 pr-4 py-3.5 rounded-2xl bg-white/7 border border-white/10 text-white placeholder-slate-500 text-sm font-medium outline-none focus:border-violet-500/60 focus:bg-white/10 transition-all duration-200"
+            />
+          </div>
+          {shake && (
+            <p className="text-rose-400 text-xs mt-1.5 pl-1 animate-fade-in">
+              ⚠️ Entre un pseudo pour jouer !
+            </p>
           )}
         </div>
 
@@ -64,7 +99,7 @@ export default function HomeScreen({ onStart, error }) {
           {GENRES.map((g, i) => (
             <button
               key={g.name}
-              onClick={() => onStart(g.name)}
+              onClick={() => handleGenreClick(g.name)}
               style={{ animationDelay: `${i * 60}ms` }}
               className={`
                 group relative overflow-hidden rounded-2xl p-4
@@ -75,23 +110,16 @@ export default function HomeScreen({ onStart, error }) {
                 focus:outline-none focus:ring-2 focus:ring-white/40
               `}
             >
-              {/* Large ghost emoji */}
               <div className="absolute right-3 top-1/2 -translate-y-1/2 text-5xl opacity-20 group-hover:opacity-30 transition-opacity select-none">
                 {g.emoji}
               </div>
-
-              {/* Small emoji badge */}
               <div className="flex-shrink-0 w-11 h-11 rounded-xl bg-white/20 flex items-center justify-center text-2xl">
                 {g.emoji}
               </div>
-
-              {/* Text */}
               <div className="text-left">
                 <div className="text-white font-bold text-base leading-tight">{g.name}</div>
                 <div className="text-white/70 text-xs mt-0.5">{g.desc}</div>
               </div>
-
-              {/* Arrow */}
               <div className="ml-auto mr-8 text-white/60 group-hover:text-white transition-colors text-lg">
                 →
               </div>
