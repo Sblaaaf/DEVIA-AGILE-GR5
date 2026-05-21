@@ -18,7 +18,9 @@ async function fetchTracks(genre, limit = 100) {
   const genreId = GENRE_IDS[genre]
   if (!genreId) throw new Error(`Genre inconnu : ${genre}`)
 
-  const endpoint = `${BASE}/chart/${genreId}/tracks?limit=${limit}`
+  // _t=Date.now() force corsproxy.io à ne pas servir une réponse mise en cache
+  // (les tokens Deezer expirent rapidement, un cache obsolète donne des 403 audio)
+  const endpoint = `${BASE}/chart/${genreId}/tracks?limit=${limit}&_t=${Date.now()}`
   const url = `${PROXY}${encodeURIComponent(endpoint)}`
   const res = await fetch(url)
   if (!res.ok) throw new Error(`Deezer API error: ${res.status}`)

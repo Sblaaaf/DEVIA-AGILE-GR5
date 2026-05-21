@@ -3,29 +3,27 @@ import { useEffect, useRef, useState } from 'react'
 export default function AudioPlayer({ src, playing }) {
   const audioRef = useRef(null)
   const [loading, setLoading] = useState(true)
+  const [error,   setError]   = useState(false)
 
   useEffect(() => {
     const audio = audioRef.current
     if (!audio || !src) return
 
     setLoading(true)
+    setError(false)
 
-    // ⚠️ Attacher les listeners AVANT de set src/load()
-    // pour éviter la race condition où canplay se déclenche
-    // avant que le listener ne soit en place
     const onCanPlay = () => setLoading(false)
-    const onError   = () => setLoading(false) // ne pas rester bloqué en cas d'erreur
+    const onError   = () => { setLoading(false); setError(true) }
 
-    audio.addEventListener('canplay', onCanPlay)
-    audio.addEventListener('error',   onError)
+    // Listeners AVANT src/load pour éviter la race condition
+    audio.addEventListener('canplay', onCanPlay, { once: true })
+    audio.addEventListener('error',   onError,   { once: true })
 
     audio.src = src
     audio.load()
 
-    // Fallback immédiat : si l'audio est déjà prêt (cache)
-    if (audio.readyState >= 3) {
-      setLoading(false)
-    }
+    // Fallback si déjà en cache
+    if (audio.readyState >= 3) setLoading(false)
 
     return () => {
       audio.removeEventListener('canplay', onCanPlay)
@@ -37,51 +35,42 @@ export default function AudioPlayer({ src, playing }) {
   useEffect(() => {
     const audio = audioRef.current
     if (!audio) return
-    if (playing && !loading) {
+    if (playing && !loading && !error) {
       audio.play().catch(() => {})
     } else {
       audio.pause()
     }
-  }, [playing, loading])
+  }, [playing, loading, error])
 
   return (
     <>
       <audio ref={audioRef} preload="auto" loop />
 
-      {loading && (
+      {loading && !error && (
         <div className="flex items-center gap-2 text-slate-400 text-sm">
           <svg className="w-4 h-4 animate-spin" viewBox="0 0 24 24" fill="none">
-            <circle
-              cx="12" cy="12" r="10"
-              stroke="currentColor" strokeWidth="3"
-              strokeDasharray="31.4" strokeDashoffset="10"
-            />
+            <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="3"
+              strokeDasharray="31.4" strokeDashoffset="10" />
           </svg>
           Chargement…
         </div>
       )}
 
-      {!loading && playing && (
+      {error && (
+        <div className="text-red-400 text-xs">⚠ Aperçu indisponible</div>
+      )}
+
+      {!loading && !error && playing && (
         <div className="flex items-end gap-1 h-6">
           {[0, 1, 2, 3].map((i) => (
-            <div
-              key={i}
-              className="w-1.5 bg-violet-400 rounded-sm"
-              style={{
-                height: `${40 + i * 15}%`,
-                animation: `equalizer 0.${5 + i}s ease-in-out infinite alternate`,
-              }}
+            <div key={i} className="w-1.5 bg-violet-400 rounded-sm"
+              style={{ height: `${40 + i * 15}%`, animation: `equalizer 0.${5 + i}s ease-in-out infinite alternate` }}
             />
           ))}
         </div>
       )}
 
-      <style>{`
-        @keyframes equalizer {
-          from { transform: scaleY(0.4); }
-          to   { transform: scaleY(1); }
-        }
-      `}</style>
+      <style>{`@keyframes equalizer { from{transform:scaleY(0.4)} to{transform:scaleY(1)} }`}</style>
     </>
   )
 }
