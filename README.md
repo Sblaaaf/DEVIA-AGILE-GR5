@@ -1,76 +1,110 @@
-# Nom du projet : BackTrack Quiz
-
-## Description courte
-Un jeu de blind-test musical où les chansons sont jouées à l'envers. Le joueur doit deviner le titre original.
-
-## Problème résolu
-Animer des soirées ou des pauses avec un jeu rapide, fun et sans installation complexe, tout en proposant un défi auditif original.
-
-## Utilisateurs cibles
-Les amateurs de musique, les étudiants, et toute personne cherchant un mini-jeu de navigateur rapide.
-
-## Fonctionnalités principales envisagées
-- Lecture audio d'extraits musicaux inversés.
-- Formulaire de soumission de réponse.
-- Validation de la réponse avec tolérance aux fautes de frappe (algorithme de distance).
-- Suivi du score de la session.
-
-## Stack technique choisie
-- Front-end : HTML/CSS/JS Vanilla (ou framework léger type Vue.js/React selon les préférences de l'équipe).
-- Back-end : API Python (FastAPI/Flask) ou Node.js (Express) pour servir les fichiers et valider les réponses.
-
-## Contraintes identifiées
-- Temps de développement très court (3 demi-journées).
-- Devoir générer ou trouver les fichiers audio inversés à l'avance pour gagner du temps.
-
-## Risques techniques
-- Gestion des erreurs de saisie utilisateur pour ne pas générer de frustration.
-- Problème de lecture audio automatique (autoplay) sur certains navigateurs.
-
-## 🚀 Stack Technique
-
-*   **Frontend :** [Vue.js 3](https://vuejs.org/) (Composition API)
-*   **Build Tool :** [Vite](https://vitejs.dev/)
-*   **Gestion d'état :** Pinia (optionnel, pour le score et l'état de la partie)
-*   **Styles :** CSS pur / Tailwind CSS (à adapter selon votre choix)
+# Suivi des Sprints
 
 ---
 
-## 💻 Installation et Lancement du Projet
+## Sprint Review 1
 
-### Prérequis
+### Sprint Goal
 
-Assurez-vous d'avoir [Node.js](https://nodejs.org/) installé sur votre machine.
+### Fonctionnalités terminées
+* Définition du projet de blind test inversé et des features à implémenter
+* Initialisation du socle technique
+* Mise en place de la Distribution Audio 
+* Mise en place des IHM
+* Soumission des résultats
+* Enchaînement des musiques
 
-### 1. Cloner le projet
+### Fonctionnalités non terminées
+* Fonction Reverse fixée au sprint 2
+* implémentation des pseudos fixée au sprint 2
 
-```bash
-git clone https://github.com/Sblaaaf/DEVIA-AGILE-GR5.git
-cd DEVIA-AGILE-GR5
-```
+### Démo réalisée
+**Non**
 
-### 2. Installer les dépendances
+### Feedback du client
+Pas de Feedback client pour ce sprint, car la démo n'a pas été réalisée.
 
-```bash
-npm install
-```
+### Décisions prises
+Mise en place des features essentiels en vue de la démo au sprint 2
 
-### 3. Lancer le serveur de développement
+## Sprint Retrospective 1
 
-```bash
-npm run dev
-```
+### Keep
+* Communication efficace au sein de l'équipe
+* Développement collaboratif et partage des connaissances
 
+### Drop
+Pas d'irritant a signaler
+
+### Try
+* Assignation des US
 ---
 
-## 👥 L'Équipe (Mode Scrum)
+## Sprint Review 2
 
-**Product Owner** : Renaud
+### Sprint Goal
+* Implémentation de la fonctionnalité de Reverse et des pseudos 
 
-**Scrum Master** : Théo
+### Fonctionnalités terminées
+* Toutes celles fixées pour ce sprint
 
-**Équipe de Développement** :
-* Foidjou
-* Martin
-* Matthieu
- 
+### Fonctionnalités non terminées
+* aucune
+
+### Démo réalisée
+**Oui**
+
+### Feedback du client
+* Mise en place de CI/CD pour automatiser les tests et le déploiement
+* Amélioration des US attribués dans le Kanban
+* Correction de l'anomalie du lancement des musiques
+
+### Décisions prises
+* Mise en place de la CI/CD pour le prochain sprint
+* Refonte des US avec Milestone et label + Roadmap
+* Correction de l'erreur 
+
+## Étape 8 — Sprint Retrospective 2
+
+### Keep
+* Identique au sprint précedent
+
+### Drop
+* Identique au sprint précedent
+
+### Try
+* Identique au sprint précedent
+---
+
+## Sprint Review 3
+
+### Sprint Goal
+* Mise en place de la CI/CD
+* Correction de l'anomalie du lancement des musiques pour l'ensemble des navigateurs
+* amélioration du Kanban
+
+### Fonctionnalités terminées
+* Ensemble des fonctionnalités fixées pour ce sprint
+
+### Fonctionnalités non terminées
+* Aucune
+
+### Démo réalisée
+**Oui**
+
+### Feedback du client
+* Pas de remarques particulières, le projet se porte bien et est validé par le client.
+
+### Décisions prises
+* Aucunes décisions prises en raison de la fin du projet
+
+## Étape 8 — Sprint Retrospective 3
+
+### Keep
+* Identique au sprint précedent
+
+### Drop
+* Rien à signaler, car les points de bloquages ont été résolus
+
+### Try
+* Rien à signaler
