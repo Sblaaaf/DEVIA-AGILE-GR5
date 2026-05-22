@@ -104,7 +104,7 @@ Pas d'irritant a signaler
 * Identique au sprint précedent
 
 ### Drop
-* Rien à signaler, car les points de bloquages ont été résolus
+* Abandon de la fonctionnalité en tant que joueur de proposer le titre d'une musique.
 
 ### Try
 * Rien à signaler
